@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\UserResource;
 use App\Models\Pharmacy;
 use Illuminate\Http\Request;
 use App\Http\Controllers\BaseController as BaseController;
@@ -32,6 +33,10 @@ class AuthController extends BaseController
 
          $success['token']=$user->createToken('ProgrammingLanguageProject')->accessToken;
          $success['name']=$user->name;
+         $success['userName'] = $user->userName;
+         $success['userNumber'] = $user->userNumber;
+         $success['address'] = $user->address;
+         $success['email'] = $user->email;
          return $this->sendResponse($success , 'registration done successfully');
    }
 
@@ -41,16 +46,29 @@ class AuthController extends BaseController
         'password' => $request->password
     ];
 
+    $validator = Validator::make($request->all() , [
+        'userNumber' => ['required'],
+        'password' => ['required' , 'min:8']
+    ]);
+
     if (Auth::attempt($data)) {
         $user=Auth::user();
 
         $success['token']=$user->createToken('ProgrammingLanguageProject')->accessToken;
         $success['name']=$user->name;
+        $success['userName'] = $user->userName;
+        $success['userNumber'] = $user->userNumber;
+        $success['address'] = $user->address;
+        $success['email'] = $user->email;
         return $this->sendResponse($success , 'login done successfully');
     }
     else {
-        return $this->sendError('Unauthorized' , ['error ,Unauthorized']);
-    }
+        if($validator->fails()){
+            return $this->sendError('Unauthorized' , $validator->errors());
+        }
+            return $this->sendError('Unauthorized' , ['user number or password isn\'t correct']);
+            }
+
    }
 
    public function logout(Request $request)
@@ -77,7 +95,7 @@ class AuthController extends BaseController
         $user=Auth::user();
 
         $success['token']=$user->createToken('ProgrammingLanguageProject')->accessToken;
-        $success['name']=$user->name;
+        $success['name']=$user->userName;
         return $this->sendResponse($success , 'login done successfully');
     }
     else {

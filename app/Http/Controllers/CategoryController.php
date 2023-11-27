@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Category;
 use Illuminate\Http\Request;
 use Validator;
+use \App\Http\Resources\Category as CategoryResouce;
 
 class CategoryController extends BaseController
 {
@@ -13,7 +14,8 @@ class CategoryController extends BaseController
      */
     public function index()
     {
-        //
+        $categories = Category::all();
+        return $this->sendResponse(CategoryResouce::collection($categories ) , 'Categories retrived Successfully');
     }
 
     /**
@@ -71,5 +73,32 @@ class CategoryController extends BaseController
     public function destroy(Category $category)
     {
         //
+    }
+
+    public function CategorySearch(Request $request){
+
+        // if (is_numeric($id))
+        // {
+        //     $category = Category::find($id);
+        // }
+        // else
+        // {
+        //     $column = 'name'; // This is the name of the column you wish to search
+
+        //     $category = Category::where($column , '=', $id)->orWhere($column , 'LIKE' ,'%' . $id . '%')->first();
+        // }
+        //  if(is_null($category)){
+        //     return $this->sendError('no such this medicine in our wareHouse');}
+
+        // return $this->sendResponse( new CategoryResource($category) , 'found this item successfully');
+
+        $search = $request->get('name');
+        $category = Category::where('name' , '=', $search)->orWhere('name' , 'LIKE' ,'%' . $search . '%')->get();
+
+        if($category-> isEmpty() ) {
+            return $this->sendError('no such this medicine in our wareHouse');
+         }
+
+        return $this->sendResponse( [$category ],   'found this item successfully');
     }
 }

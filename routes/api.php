@@ -32,13 +32,16 @@ Route::prefix('Pharmacy')->group(function () {
 
     Route::middleware('auth:api')->group(function(){
 
-    //browse the medicines
+    //browse Medicines
         Route::get('medicines' ,[App\Http\Controllers\MedicineController::class , 'index']);
+
+        //browse the Categories
+            Route::get('category' ,[App\Http\Controllers\CategoryController::class , 'index']);
 
         //Searching for Medicine
         Route::post('search/medicine/' ,[App\Http\Controllers\MedicineController::class , 'MedicineSearch']);
          //Searching for Category
-        Route::post('search/category/' ,[App\Http\Controllers\MedicineController::class , 'CategorySearch']);
+        Route::post('search/category/' ,[App\Http\Controllers\CategoryController::class , 'CategorySearch']);
     });
 });
 
@@ -51,12 +54,16 @@ Route::prefix('WareHouse')->group(function () {
 
     Route::middleware('auth:api')->group(function(){
 
+        //browse Medicines
         Route::get('medicines' ,[App\Http\Controllers\MedicineController::class , 'index']);
+
+          //browse Categories
+          Route::get('category' ,[App\Http\Controllers\CategoryController::class , 'index']);
 
     //Searching for Medicine
         Route::post('search/medicine/' ,[App\Http\Controllers\MedicineController::class , 'MedicineSearch']);
     //Searching for Category
-        Route::post('search/category/' ,[App\Http\Controllers\MedicineController::class , 'CategorySearch']);
+    Route::post('search/category/' ,[App\Http\Controllers\CategoryController::class , 'CategorySearch']);
 
     //Adding new Medicine or Category
         Route::middleware(['can:access-Secretary'])->group(function(){
