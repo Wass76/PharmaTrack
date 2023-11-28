@@ -28,7 +28,7 @@ class User extends Authenticatable
         'userNumber',
         'address',
         'password',
-        'c_password' ,
+        'confirm_password' ,
     ];
 
 
@@ -47,7 +47,7 @@ class User extends Authenticatable
     protected $hidden = [
         'password',
         'remember_token',
-        'c_password'
+        'confirm_password'
     ];
 
     /**
@@ -58,7 +58,7 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
-        'c_password' => 'hashed',
+        'confirm_password' => 'hashed',
     ];
 
 

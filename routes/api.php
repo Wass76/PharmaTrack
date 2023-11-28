@@ -26,11 +26,12 @@ Route::prefix('Pharmacy')->group(function () {
     //Signing
     Route::post('register' ,[App\Http\Controllers\AuthController::class ,'pharmacyRegister']);
     Route::post('login' ,[App\Http\Controllers\AuthController::class , 'pharmacyLogin']);
-    Route::get('logout' ,[App\Http\Controllers\AuthController::class , 'logout']);
 
 
 
     Route::middleware('auth:api')->group(function(){
+
+        Route::get('logout' ,[App\Http\Controllers\AuthController::class , 'logout']);
 
     //browse Medicines
         Route::get('medicines' ,[App\Http\Controllers\MedicineController::class , 'index']);

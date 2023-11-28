@@ -17,12 +17,12 @@ class AuthController extends BaseController
    {
         $validator =Validator::make($request->all(),[
             'name' => ['required', 'string', 'max:255'],
-            'userName' => ['required', 'string', 'max:255'],
-            'userNumber' => ['required', ],
+            'userName' => ['required', 'string', 'max:255' ],
+            'userNumber' => ['required','unique:users' ],
             'address' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'min:8'],
-            'c_password' => 'required|same:password',
+            'confirm_password' => 'required|same:password',
         ]);
         if($validator->fails()){
             return $this->sendError('Validate your data' , $validator->errors());
@@ -73,14 +73,21 @@ class AuthController extends BaseController
 
    public function logout(Request $request)
    {
-        if ($request->user()) {
-            $request->user()->tokens()->delete();
+        if (auth()->check()) {
+            auth()->user()->token()->revoke();
+            $success = 200;
+            return $this->sendResponse( $success,[
+                'message' => 'Successfully logged out'
+            ]);
+        }
+        else{
+            return $this->sendError( ['Unauthenticated'],'You aren\'t signed in before');
+        }
+        foreach($order as $orders){
+
         }
 
-        $success = 200;
-        return $this->sendResponse( $success,[
-            'message' => 'Successfully logged out'
-        ]);
+
 
    }
 
@@ -90,6 +97,10 @@ class AuthController extends BaseController
         'email' => $request->email,
         'password' => $request->password
     ];
+    $validator = Validator::make($request->all() , [
+        'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+        'password' => ['required' , 'min:8']
+    ]);
 
     if (Auth::attempt($data)) {
         $user=Auth::user();
@@ -99,8 +110,11 @@ class AuthController extends BaseController
         return $this->sendResponse($success , 'login done successfully');
     }
     else {
-        return $this->sendError('Unauthorized' , ['error ,Unauthorized']);
-    }
+        if($validator->fails()){
+            return $this->sendError('Unauthorized' , $validator->errors());
+        }
+            return $this->sendError('Unauthorized' , ['user number or password isn\'t correct']);
+            }
 
    }
 }

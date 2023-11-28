@@ -26,7 +26,7 @@ class DatabaseSeeder extends Seeder
             'userName' => 'Manager',
             'email' => 'Manager@gmail.com',
             'password' => 'password',
-            'c_password' => 'password',
+            'confirm_password' => 'password',
             'role_id' => 2
         ]);
 
@@ -34,14 +34,14 @@ class DatabaseSeeder extends Seeder
             'userName' => 'Secretary',
             'email' => 'Secretary@gmail.com',
             'password' => 'password',
-            'c_password' => 'password',
+            'confirm_password' => 'password',
             'role_id' => 3
         ]);
         User::create([
             'userName' => 'SalesOfficer',
             'email' => 'SalesOfficer@gmail.com',
             'password' => 'password',
-            'c_password' => 'password',
+            'confirm_password' => 'password',
             'role_id' => 4
         ]);
 
