@@ -27,7 +27,11 @@ class MedicineController extends BaseController
     {
         $medicines = Medicine::all();
         // $medicines = Medicine::paginate(); // show every 15 item
-        return $this->sendResponse(MedicineResource::collection($medicines) , 'all medicines retrived successfully');
+        // if(Isset($medicines) ){
+        //     return $this->sendError('There is no medicine yet');
+        // }
+        // else
+            return $this->sendResponse(MedicineResource::collection($medicines) , 'all medicines retrived successfully');
     }
 
     /**

@@ -4,8 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Models\Category;
 use Illuminate\Http\Request;
+use PhpParser\Node\Expr\Isset_;
+use PHPUnit\Framework\Constraint\IsEmpty;
 use Validator;
 use \App\Http\Resources\Category as CategoryResouce;
+
 
 class CategoryController extends BaseController
 {
@@ -15,6 +18,10 @@ class CategoryController extends BaseController
     public function index()
     {
         $categories = Category::all();
+        if(Isset($categories) ){
+            return $this->sendError('There is no category yet');
+        }
+        else
         return $this->sendResponse(CategoryResouce::collection($categories ) , 'Categories retrived Successfully');
     }
 

@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('address')->nullable();
             $table->string('email')->unique();
             $table->string('password');
-            $table->string('c_password');
+            $table->string('confirm_password');
             $table->integer('role_id')->default('1');
             $table->timestamp('email_verified_at')->nullable();
             $table->rememberToken();
