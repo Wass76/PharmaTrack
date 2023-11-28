@@ -36,8 +36,14 @@ Route::prefix('Pharmacy')->group(function () {
     //browse Medicines
         Route::get('medicines' ,[App\Http\Controllers\MedicineController::class , 'index']);
 
+        Route::get('medicines/{id}' ,[App\Http\Controllers\MedicineController::class , 'show']);
+
+
         //browse the Categories
             Route::get('category' ,[App\Http\Controllers\CategoryController::class , 'index']);
+
+            Route::get('category/{id}' ,[App\Http\Controllers\CategoryController::class , 'show']);
+
 
         //Searching for Medicine
         Route::post('search/medicine/' ,[App\Http\Controllers\MedicineController::class , 'MedicineSearch']);
@@ -70,6 +76,9 @@ Route::prefix('WareHouse')->group(function () {
         Route::middleware(['can:access-Secretary'])->group(function(){
             Route::post('medicines' ,[App\Http\Controllers\MedicineController::class , 'store']);
             Route::post('category' ,[App\Http\Controllers\CategoryController::class , 'store']);
+
+            Route::post('medicines/{id}' ,[App\Http\Controllers\MedicineController::class , 'update']);
+            Route::post('category/{id}' ,[App\Http\Controllers\CategoryController::class , 'update']);
         });
 
         //Showing Pharmacies data

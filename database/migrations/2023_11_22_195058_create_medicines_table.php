@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('scientific_name');
             $table->string('trade_name');
             $table->string('company_name');
+            $table->string('photo')->nullable();
             $table->string('categories_name')->references('name')->on('categories')->onDelete('cascade');
             $table->string('form')->nullable();
             $table->integer('quantity');

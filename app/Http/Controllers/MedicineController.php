@@ -26,11 +26,11 @@ class MedicineController extends BaseController
     public function index()
     {
         $medicines = Medicine::all();
-        // $medicines = Medicine::paginate(); // show every 15 item
-        // if(Isset($medicines) ){
-        //     return $this->sendError('There is no medicine yet');
-        // }
-        // else
+        $medicines = Medicine::paginate(); // show every 15 item
+        if(Isset($medicines) ){
+            return $this->sendError('There is no medicine yet');
+        }
+        else
             return $this->sendResponse(MedicineResource::collection($medicines) , 'all medicines retrived successfully');
     }
 
@@ -52,6 +52,7 @@ class MedicineController extends BaseController
              'scientific_name' => 'required',
              'trade_name' =>'required',
              'company_name' => 'required',
+             'photo' =>  'required|image',
              'categories_name' =>'required',
              'quantity'=>'required',
              'expiration_at' => 'required',
@@ -69,19 +70,71 @@ class MedicineController extends BaseController
          if(is_null($category) ){
             return $this->sendError('Sorry, we dont have this category, please validate your category name' ,);
          }
-         $medicine = Medicine::create($input);
-         return $this->sendResponse([$medicine , $categories ], 'Adding new item done successfully');
-    //    }
+
+         $photo = $request->photo;
+         $newPhoto = time().$photo->getClientOriginalName();
+         $photo->move('uploads/medicines',$newPhoto);
+
+         $medicine = Medicine::create([
+                'scientific_name' => $request->scientific_name ,
+                'trade_name'      => $request->trade_name ,
+                'company_name'    => $request->company_name ,
+                'photo'           =>  'uploads/medicines'.$newPhoto ,
+                'categories_name' => $request-> categories_name ,
+                'quantity'        => $request->quantity ,
+                'expiration_at'   => $request->expiration_at ,
+                'price'           => $request-> price ,
+                'form'            => $request-> form,
+                'details'         => $request->details,
+         ]);
+         return $this->sendResponse([$category,$medicine ], 'Adding new item done successfully');
     }
 
-    public function show(Medicine $medicine)
+    public function show(Request $request ,$id)
     {
-        //
+        // $medicine = Medicine::where('scientific_name' , $request->scientific_name)->first();
+        $medicine = Medicine::find($id);
+        return $this->sendResponse(new MedicineResource($medicine) , 'This medicine retrived successfully');
     }
 
-    public function update(Request $request, Medicine $medicine)
+    public function update(Request $request ,$id)
     {
-        //
+        $medicine = Medicine::find($id);
+        $validator = Validator::make($request->all() ,[
+            'scientific_name' => 'required',
+            'trade_name' =>'required',
+            'company_name' => 'required',
+            'photo' =>  'required|image',
+            'categories_name' =>'required',
+            'quantity'=>'required',
+            'expiration_at' => 'required',
+            'price' =>'required',
+            'form' =>'required',
+            'details' => 'required'
+        ]);
+        if($validator->fails()){
+            return $this->sendError('validate your data,' , $validator->errors());
+        }
+
+        if ($request->has('photo')) {
+            $photo = $request->photo;
+            $newPhoto = time().$photo->getClientOriginalName();
+            $photo->move('uploads/medicines',$newPhoto);
+            $medicine->photo ='uploads/medicines/'.$newPhoto ;
+        }
+          $medicine->scientific_name = $request->scientific_name ;
+          $medicine->trade_name = $request->trade_name ;
+          $medicine->company_name =$request->company_name ;
+          $medicine->categories_name =$request-> categories_name ;
+          $medicine->quantity =$request->quantity ;
+          $medicine->expiration_at =$request->expiration_at ;
+          $medicine->price =$request-> price ;
+          $medicine->form =$request-> form;
+          $medicine->details =$request->details;
+
+          $medicine->save();
+          return $this->sendResponse(new MedicineResource($medicine) ,  'updated data done successfully');
+
     }
 
     /**

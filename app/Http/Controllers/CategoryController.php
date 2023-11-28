@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Category;
+use App\Models\Medicine;
 use Illuminate\Http\Request;
 use PhpParser\Node\Expr\Isset_;
 use PHPUnit\Framework\Constraint\IsEmpty;
@@ -53,9 +54,12 @@ class CategoryController extends BaseController
     /**
      * Display the specified resource.
      */
-    public function show(Category $category)
+    public function show($id)
     {
-        //
+        $category= Category::find($id);
+        $medicines = Medicine::where('categories_name' , $category['name'])->get();
+
+        return $this->sendResponse([$category , $medicines ] , 'This category with it\'s medicines retrived successfully');
     }
 
     /**
