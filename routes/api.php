@@ -67,6 +67,10 @@ Route::prefix('WareHouse')->group(function () {
           //browse Categories
           Route::get('category' ,[App\Http\Controllers\CategoryController::class , 'index']);
 
+        //   show some category and it's medicines
+          Route::get('category/{id}' ,[App\Http\Controllers\CategoryController::class , 'show']);
+
+
     //Searching for Medicine
         Route::post('search/medicine/' ,[App\Http\Controllers\MedicineController::class , 'MedicineSearch']);
     //Searching for Category
