@@ -22,6 +22,7 @@ class Medicine extends JsonResource
              'categories_name' => $this->categories_name,
              'quantity'=>$this->quantity,
             'price' =>$this->price,
+            'photo' =>$this->photo,
             'form' =>$this->form,
             'details' => $this->details,
             'expiration_at' => $this->expiration_at ,

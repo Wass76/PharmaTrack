@@ -1,6 +1,6 @@
 <?php
 
- use App\Http\Controllers\AuthController;
+use App\Http\Controllers\AuthController;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -47,8 +47,13 @@ Route::prefix('Pharmacy')->group(function () {
 
         //Searching for Medicine
         Route::post('search/medicine/' ,[App\Http\Controllers\MedicineController::class , 'MedicineSearch']);
+
+        Route::get('searchList/medicine/' ,[App\Http\Controllers\MedicineController::class , 'SearchList']);
          //Searching for Category
         Route::post('search/category/' ,[App\Http\Controllers\CategoryController::class , 'CategorySearch']);
+        //search in category
+        Route::post('search/medicineInCategory/{id}' ,[App\Http\Controllers\CategoryController::class , 'SearchInCategory']);
+
     });
 });
 
@@ -81,6 +86,8 @@ Route::prefix('WareHouse')->group(function () {
             Route::post('medicines' ,[App\Http\Controllers\MedicineController::class , 'store']);
             Route::post('category' ,[App\Http\Controllers\CategoryController::class , 'store']);
 
+
+            //Updating data for Medicine or Category
             Route::post('medicines/{id}' ,[App\Http\Controllers\MedicineController::class , 'update']);
             Route::post('category/{id}' ,[App\Http\Controllers\CategoryController::class , 'update']);
         });

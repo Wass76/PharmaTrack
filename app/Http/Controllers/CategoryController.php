@@ -19,7 +19,7 @@ class CategoryController extends BaseController
     public function index()
     {
         $categories = Category::all();
-        if(Isset($categories) ){
+        if(!Isset($categories) ){
             return $this->sendError('There is no category yet');
         }
         else
@@ -107,8 +107,9 @@ class CategoryController extends BaseController
         $category = Category::where('name' , '=', $search)->orWhere('name' , 'LIKE' ,'%' . $search . '%')->get();
 
         if($category-> isEmpty() ) {
-            return $this->sendError('no such this medicine in our wareHouse');
+            return $this->sendError('no such this category in our wareHouse');
          }
+
 
         return $this->sendResponse( [$category ],   'found this item successfully');
     }

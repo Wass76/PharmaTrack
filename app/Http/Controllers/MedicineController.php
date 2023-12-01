@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\medicinesNames;
 use App\Models\Category;
 use App\Models\Medicine;
 use Illuminate\Http\Request;
@@ -26,8 +27,8 @@ class MedicineController extends BaseController
     public function index()
     {
         $medicines = Medicine::all();
-        $medicines = Medicine::paginate(); // show every 15 item
-        if(Isset($medicines) ){
+        //$medicines = Medicine::paginate(); // show every 15 item
+        if(!Isset($medicines) ){
             return $this->sendError('There is no medicine yet');
         }
         else
@@ -90,7 +91,7 @@ class MedicineController extends BaseController
          return $this->sendResponse([$category,$medicine ], 'Adding new item done successfully');
     }
 
-    public function show(Request $request ,$id)
+    public function show($id)
     {
         // $medicine = Medicine::where('scientific_name' , $request->scientific_name)->first();
         $medicine = Medicine::find($id);
@@ -185,12 +186,16 @@ class MedicineController extends BaseController
         // $TrMedicine = Medicine::where($column1 , '=', $search1)->orWhere($column1 , 'LIKE' ,'%' . $search1 . '%')->get();
 
         if($ScMedicine-> isEmpty() && $TrMedicine->isEmpty() ) {
-            return $this->sendError('no such this medicine in our wareHouse');
+            return $this->sendError('No such this medicine in our wareHouse');
          }
 
         // dd($ScMedicine);
         return $this->sendResponse( [$ScMedicine ,$TrMedicine ],   'found this item successfully');
-
+    }
+    public function SearchList(){
+        //pluck
+        $Scmedicines = Medicine::all();
+        return $this->sendResponse(MedicinesNames::collection($Scmedicines) , 'all data names retrived successfully');
     }
 
 }
