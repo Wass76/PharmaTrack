@@ -36,7 +36,7 @@ class Medicine extends Model
  }
 
  protected $casts = [
-    'expiration_at' => 'datetime:d/m/Y', // Change your format
+    // 'expiration_at' => 'datetime:d/m/Y', // Change your format
 ];
 
  protected $searchable = [

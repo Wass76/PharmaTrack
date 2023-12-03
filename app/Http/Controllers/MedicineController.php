@@ -11,7 +11,6 @@ use App\Http\Resources\Medicine as MedicineResource;
 use App\Http\Resources\Category as CategoryResource;
 use Validator;
 use Auth;
-
 class MedicineController extends BaseController
 {
     /**
@@ -31,8 +30,8 @@ class MedicineController extends BaseController
         if(!Isset($medicines) ){
             return $this->sendError('There is no medicine yet');
         }
-        else
-            return $this->sendResponse(MedicineResource::collection($medicines) , 'all medicines retrived successfully');
+        else{
+            return $this->sendResponse($medicines , 'all medicines retrived successfully');}
     }
 
     /**
@@ -50,13 +49,13 @@ class MedicineController extends BaseController
 
          $input = $request->all();
          $validator = Validator::make($input ,[
-             'scientific_name' => 'required',
-             'trade_name' =>'required',
+             'scientific_name' => ['required' , 'unique:Medicines,scientific_name'],
+             'trade_name' =>['required' , 'unique:Medicines,trade_name'],
              'company_name' => 'required',
-             'photo' =>  'required|image',
+             'photo' =>  'image',
              'categories_name' =>'required',
-             'quantity'=>'required',
-             'expiration_at' => 'required',
+             'quantity'=>['required'],
+             'expiration_at' => ['required'],
              'price' =>'required',
              'form' =>'required',
              'details' => 'required'
@@ -64,6 +63,9 @@ class MedicineController extends BaseController
 
          if($validator->fails()){
             return $this->sendError('Validate your data' , $validator->errors());
+         }
+         if($input['quantity'] <= 0){
+            return $this->sendError('your quantity\'s medicines should be at least 1');
          }
          $category = Category::where('name' , $input['categories_name'])->first();
 
@@ -141,10 +143,22 @@ class MedicineController extends BaseController
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Medicine $medicine)
+    public function destroy( Medicine $medicine)
     {
-        //
+        if($medicine->quantity <= 0){
+            $medicine->delete();
+            return $this->sendResponse('Done' , 'Data deleted successfully');
+        }
     }
+
+    public function HDelete($id){
+        $medicine = Medicine::find($id);
+        if(!Isset($medicine)){
+            return $this->sendError('The item could not be found' , );
+        }
+        $medicine->forceDelete();
+        return $this->sendResponse('Done' , 'Data Deleted Permanently');
+        }
 
     public function MedicineSearch(Request $request ){
 

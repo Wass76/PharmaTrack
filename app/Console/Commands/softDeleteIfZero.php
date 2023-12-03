@@ -27,12 +27,9 @@ class softDeleteIfZero extends Command
     public function handle()
     {
         $medicines = Medicine::all();
-
-        foreach($medicines as $medicine){
-            if($medicine->quantitiy == 0){
+        foreach ($medicines as $medicine) {
+            if($medicine->quantity === 0)
                 $medicine->delete();
-            }
         }
-
     }
 }

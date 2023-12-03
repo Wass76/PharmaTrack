@@ -1,0 +1,4 @@
+
+  2023-12-03 11:04:22 Running ["artisan" soft-delete-if-zero] ......................................................................... 1,343ms DONE
+  ⇂ "C:\xampp\php\php.exe" "artisan" soft-delete-if-zero > "NUL" 2>&1  
+

@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('medicines', function (Blueprint $table) {
             $table->id();
-            $table->string('scientific_name');
-            $table->string('trade_name');
+            $table->string('scientific_name')->unique();
+            $table->string('trade_name')->unique();
             $table->string('company_name');
             $table->string('photo')->nullable();
             $table->string('categories_name')->references('name')->on('categories')->onDelete('cascade');
