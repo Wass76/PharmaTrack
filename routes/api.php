@@ -44,7 +44,6 @@ Route::prefix('Pharmacy')->group(function () {
 
 
         //Searching for Medicine
-<<<<<<< HEAD
         Route::post('search/medicine/' ,[App\Http\Controllers\MedicineController::class , 'MedicineSearch']);
 
         Route::get('searchList/medicine/' ,[App\Http\Controllers\MedicineController::class , 'SearchList']);
@@ -53,16 +52,16 @@ Route::prefix('Pharmacy')->group(function () {
         //search in category
         Route::post('search/medicineInCategory/{id}' ,[App\Http\Controllers\CategoryController::class , 'SearchInCategory']);
 
-=======
         Route::post('search/medicine/', [App\Http\Controllers\MedicineController::class, 'MedicineSearch']);
         //Searching for Category
         Route::post('search/category/', [App\Http\Controllers\CategoryController::class, 'CategorySearch']);
+
+        //order
         Route::get('order/index/', [App\Http\Controllers\OrderController::class, 'index']);
         Route::get('order/show/{id}', [App\Http\Controllers\OrderController::class, 'show']);
         Route::post('cart/store/', [App\Http\Controllers\CartController::class, 'store']);
         Route::get('cart/index/', [App\Http\Controllers\CartController::class, 'index']);
         Route::get('cart/show/{id}', [App\Http\Controllers\CartController::class, 'show']);
->>>>>>> source/Rawan
     });
 });
 
@@ -84,7 +83,6 @@ Route::prefix('WareHouse')->group(function () {
         //browse Categories
         Route::get('category', [App\Http\Controllers\CategoryController::class, 'index']);
 
-<<<<<<< HEAD
         //   show some category and it's medicines
           Route::get('category/{id}' ,[App\Http\Controllers\CategoryController::class , 'show']);
 
@@ -92,10 +90,12 @@ Route::prefix('WareHouse')->group(function () {
     //Searching for Medicine
         Route::post('search/medicine/' ,[App\Http\Controllers\MedicineController::class , 'MedicineSearch']);
     //Searching for Category
-    Route::post('search/category/' ,[App\Http\Controllers\CategoryController::class , 'CategorySearch']);
+        Route::post('search/category/' ,[App\Http\Controllers\CategoryController::class , 'CategorySearch']);
 
     //Adding new Medicine or Category
         Route::middleware(['can:access-Secretary'])->group(function(){
+
+            //Adding new Medicine or Category
             Route::post('medicines' ,[App\Http\Controllers\MedicineController::class , 'store']);
             Route::post('category' ,[App\Http\Controllers\CategoryController::class , 'store']);
 
@@ -103,30 +103,27 @@ Route::prefix('WareHouse')->group(function () {
             //Updating data for Medicine or Category
             Route::post('medicines/{id}' ,[App\Http\Controllers\MedicineController::class , 'update']);
             Route::post('category/{id}' ,[App\Http\Controllers\CategoryController::class , 'update']);
-=======
-        //Searching for Medicine
-        Route::post('search/medicine/', [App\Http\Controllers\MedicineController::class, 'MedicineSearch']);
-        //Searching for Category
-        Route::post('search/category/', [App\Http\Controllers\CategoryController::class, 'CategorySearch']);
-        //delete
-        Route::get('medicines/destroy/{id}', [App\Http\Controllers\MedicineController::class, 'destroy']);
-        //update the cart
-
-        //Adding new Medicine or Category
-         Route::middleware(['can:access-Secretary'])->group(function () {
-            Route::post('medicines', [App\Http\Controllers\MedicineController::class, 'store']);
-            Route::post('category', [App\Http\Controllers\CategoryController::class, 'store']);
-            Route::post('category', [App\Http\Controllers\CategoryController::class, 'store']);
->>>>>>> source/Rawan
+            //Searching for Medicine
+            Route::post('search/medicine/', [App\Http\Controllers\MedicineController::class, 'MedicineSearch']);
+            //Searching for Category
+            Route::post('search/category/', [App\Http\Controllers\CategoryController::class, 'CategorySearch']);
+            //delete
+            Route::get('medicines/destroy/{id}', [App\Http\Controllers\MedicineController::class, 'destroy']);
         });
 
         //Showing Pharmacies data
          Route::middleware(['can:access-SalesOfficer'])->group(function () {
+            //get pharmacies
             Route::get('users', [App\Http\Controllers\UserController::class, 'index']);
+            //get some order details
             Route::get('order/show/{id}', [App\Http\Controllers\OrderController::class, 'show']);
+            //get all orders
             Route::get('order/index/', [App\Http\Controllers\OrderController::class, 'index']);
+            //get some cart info
             Route::get('cart/show/{id}', [App\Http\Controllers\CartController::class, 'show']);
+            //get all of my carts
             Route::get('cart/index/', [App\Http\Controllers\CartController::class, 'index']);
+            //update cart's info
             Route::post('cart/update/{id}', [App\Http\Controllers\CartController::class, 'update']);
         });
     });
