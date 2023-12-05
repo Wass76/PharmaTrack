@@ -7,9 +7,10 @@ use App\Models\Pharmacy;
 use Illuminate\Http\Request;
 use App\Http\Controllers\BaseController as BaseController;
 use App\Models\User;
-use Hash;
-use Auth;
-use Validator;
+use Illuminate\Support\Facades\Auth ;
+use Illuminate\Support\Facades\Hash;
+
+use Illuminate\Support\Facades\Validator;
 
 class AuthController extends BaseController
 {
@@ -83,9 +84,7 @@ class AuthController extends BaseController
         else{
             return $this->sendError( ['Unauthenticated'],'You aren\'t signed in before');
         }
-        foreach($order as $orders){
-
-        }
+       
 
 
 

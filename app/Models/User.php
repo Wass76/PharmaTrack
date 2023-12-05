@@ -32,10 +32,7 @@ class User extends Authenticatable
     ];
 
 
-    public function orders(): HasMany
- {
-     return $this->hasMany(Order::class);
- } //edited
+
 
 
  public function medicines(): BelongsToMany
@@ -81,5 +78,11 @@ class User extends Authenticatable
         return Attribute::make(
             get: fn () => $this->role_id==4,
         );
+    }
+
+    public function carts()
+
+    {
+        return $this->hasMany(cart::class);
     }
 }
