@@ -2,64 +2,27 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\Medicine as ResourcesMedicine;
 use App\Models\Order;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
+use App\Models\Medicine;
+use \App\Http\Resources\order as OrderResouce;
 
 class OrderController extends BaseController
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        $order = Order::auth()->user()->orders();
-    }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
+        $order = Order::all();
+        if (!isset($order)) {
+        return $this->sendError('There is no orders');
+        } else
+         return $this->sendResponse(OrderResouce::collection($order), 'orders retrived Successfully');
     }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
+    public function show($id)
     {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(Order $order)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Order $order)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Order $order)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Order $order)
-    {
-        //
+        $medicine = Medicine::find($id);
+        return $this->sendResponse(new OrderResouce($medicine), 'This medicine retrived successfully');
     }
 }

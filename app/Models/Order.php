@@ -9,11 +9,10 @@ class Order extends Model
 {
     use HasFactory;
     protected $fillable = [
-    'pharmacies_id'   ,
-    'medicines_id'   ,
-    'status'   ,
-    'paid status'  ,
-    'favorite' ,
+    'cart_id'   ,
+    'quantity'   ,
+    'medicines_name'
+
     ];
     /**
      * The roles that belong to the Order
@@ -25,7 +24,10 @@ class Order extends Model
         return $this->belongsToMany(Medicine::class);
     }
 
-    public function users()
+
+
+    public function carts()
     {
-        return $this->belongsTo(User::class , 'pharmacies_id');
-    }}
+        return $this->belongsTo(Cart::class);
+    }
+}

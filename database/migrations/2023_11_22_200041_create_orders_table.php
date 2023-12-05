@@ -13,11 +13,9 @@ return new class extends Migration
     {
         Schema::create('orders', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('pharmacies_id');
-            $table->integer('medicines_id');
-            $table->string('status');
-            $table->string('paid status');
-            $table->boolean('favorite')->default(false);
+            $table->integer('cart_id')->references('id')->on('cart')->onDelete('cascade');
+            $table->string('medicines_name')->references('scientific_name')->references('trade_name')->on('medicines')->onDelete('cascade');
+            $table->integer('quantity');
             $table->timestamps();
         });
     }

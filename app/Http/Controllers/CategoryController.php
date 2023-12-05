@@ -7,7 +7,7 @@ use App\Models\Medicine;
 use Illuminate\Http\Request;
 use PhpParser\Node\Expr\Isset_;
 use PHPUnit\Framework\Constraint\IsEmpty;
-use Validator;
+use Illuminate\Support\Facades\Validator;
 use \App\Http\Resources\Category as CategoryResouce;
 
 

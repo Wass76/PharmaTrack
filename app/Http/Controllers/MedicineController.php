@@ -42,10 +42,10 @@ class MedicineController extends BaseController
 
         // if(Auth::user()->role_id = 1)
         // {
-            $categories = Category::all();
-            if($categories->count() == 0){
-                return $this->sendError('Error, you have to create someCategory first' ,);
-            }
+        $categories = Category::all();
+        if ($categories->count() == 0) {
+            return $this->sendError('Error, you have to create someCategory first',);
+        }
 
          $input = $request->all();
          $validator = Validator::make($input ,[
@@ -162,25 +162,17 @@ class MedicineController extends BaseController
 
     public function MedicineSearch(Request $request ){
 
-    // if (is_numeric($id))
-    // {
-    //     $ScMedicine = Medicine::find($id);
-    // }
-    // else
-    // {
-    //     $column = 'scientific_name'; // This is the name of the column you wish to search
-
-    //     $ScMedicine = Medicine::where($column , '=', $id)->orWhere($column , 'LIKE' ,'%' . $id . '%')->get();
-    // }
+        //     $ScMedicine = Medicine::where($column , '=', $id)->orWhere($column , 'LIKE' ,'%' . $id . '%')->get();
+        // }
 
 
-    //         $column = 'trade_name'; // This is the name of the column you wish to search
+        //         $column = 'trade_name'; // This is the name of the column you wish to search
 
-    //         $TrMedicine = Medicine::where($column , '=', $id)->orWhere($column , 'LIKE' ,'%' . $id . '%')->get();
+        //         $TrMedicine = Medicine::where($column , '=', $id)->orWhere($column , 'LIKE' ,'%' . $id . '%')->get();
 
-                //  if(is_null($ScMedicine) && is_null($TrMedicine)) {
-                //     return $this->sendError('no such this medicine in our wareHouse');
-                //  }
+        //  if(is_null($ScMedicine) && is_null($TrMedicine)) {
+        //     return $this->sendError('no such this medicine in our wareHouse');
+        //  }
 
         // $medicine = Medicine::find($id);
         // $input = $request->all();
@@ -190,10 +182,10 @@ class MedicineController extends BaseController
 
         $search = $request->get('name');
         $column = 'scientific_name';
-        $ScMedicine = Medicine::where($column , '=', $search)->orWhere($column , 'LIKE' ,'%' . $search . '%')->get();
+        $ScMedicine = Medicine::where($column, '=', $search)->orWhere($column, 'LIKE', '%' . $search . '%')->get();
 
         $column1 = 'trade_name';
-        $TrMedicine = Medicine::where($column1 , '=', $search)->orWhere($column1 , 'LIKE' ,'%' . $search . '%')->get();
+        $TrMedicine = Medicine::where($column1, '=', $search)->orWhere($column1, 'LIKE', '%' . $search . '%')->get();
 
         // $search1 = $request->get('trade_name');
         // $column1 = 'trade_name';
@@ -211,5 +203,4 @@ class MedicineController extends BaseController
         $Scmedicines = Medicine::all();
         return $this->sendResponse(MedicinesNames::collection($Scmedicines) , 'all data names retrived successfully');
     }
-
 }
