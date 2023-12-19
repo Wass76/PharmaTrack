@@ -54,8 +54,9 @@ class CartController extends BaseController
     //
     public function show($id)
     {
-        $medicine = Medicine::find($id);
-        return $this->sendResponse(new CartResouce($medicine), 'This medicine retrived successfully');
+        $cart = Cart::find($id);
+        // dd($cart);
+        return $this->sendResponse(new CartResouce($cart), 'This cart retrived successfully');
     }
 
     public function update(Request $request, $id)

@@ -18,7 +18,8 @@ class cart extends JsonResource
             'id' => $this->id,
             'user_id' => $this->user_id,
             'status' =>$this->status,
-            'paid_status' => $this->paid_status
+            'paid_status' => $this->paid_status,
+            'created_at' => $this->created_at->format('Y-m-d')
         ];
     }
 }

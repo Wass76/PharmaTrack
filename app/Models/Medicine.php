@@ -16,7 +16,7 @@ class Medicine extends Model
     use Searchable;
     protected $fillable = [
         'scientific_name','trade_name',
-       'company_name', 'categories_name','quantity',
+       'company_name', 'photo', 'categories_name','quantity',
        'expiration_at','price','form','details'
     ];
 

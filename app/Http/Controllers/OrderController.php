@@ -22,7 +22,7 @@ class OrderController extends BaseController
     }
     public function show($id)
     {
-        $medicine = Medicine::find($id);
-        return $this->sendResponse(new OrderResouce($medicine), 'This medicine retrived successfully');
+        $order = Medicine::find($id);
+        return $this->sendResponse(new OrderResouce($order), 'This order retrived successfully');
     }
 }

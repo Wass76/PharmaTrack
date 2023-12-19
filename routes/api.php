@@ -86,6 +86,9 @@ Route::prefix('WareHouse')->group(function () {
         //   show some category and it's medicines
           Route::get('category/{id}' ,[App\Http\Controllers\CategoryController::class , 'show']);
 
+             //   show Medicines
+             Route::get('medicines/{id}' ,[App\Http\Controllers\MedicineController::class , 'show']);
+
 
     //Searching for Medicine
         Route::post('search/medicine/' ,[App\Http\Controllers\MedicineController::class , 'MedicineSearch']);
@@ -120,11 +123,11 @@ Route::prefix('WareHouse')->group(function () {
             //get all orders
             Route::get('order/index/', [App\Http\Controllers\OrderController::class, 'index']);
             //get some cart info
-            Route::get('cart/show/{id}', [App\Http\Controllers\CartController::class, 'show']);
+            Route::get('cart/{id}', [App\Http\Controllers\CartController::class, 'show']);
             //get all of my carts
-            Route::get('cart/index/', [App\Http\Controllers\CartController::class, 'index']);
+            Route::get('carts', [App\Http\Controllers\CartController::class, 'index']);
             //update cart's info
-            Route::post('cart/update/{id}', [App\Http\Controllers\CartController::class, 'update']);
+            Route::post('cart/{id}', [App\Http\Controllers\CartController::class, 'update']);
         });
     });
 });

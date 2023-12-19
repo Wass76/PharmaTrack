@@ -8,7 +8,9 @@ use Illuminate\Http\Request;
 use PhpParser\Node\Expr\Isset_;
 use PHPUnit\Framework\Constraint\IsEmpty;
 use Illuminate\Support\Facades\Validator;
-use \App\Http\Resources\Category as CategoryResouce;
+use \App\Http\Resources\Category as CategoryResource;
+
+use \App\Http\Resources\Medicine as MedicineResource;
 
 
 class CategoryController extends BaseController
@@ -23,7 +25,7 @@ class CategoryController extends BaseController
             return $this->sendError('There is no category yet');
         }
         else
-        return $this->sendResponse(CategoryResouce::collection($categories ) , 'Categories retrived Successfully');
+        return $this->sendResponse(CategoryResource::collection($categories ) , 'Categories retrived Successfully');
     }
 
     /**
@@ -59,7 +61,7 @@ class CategoryController extends BaseController
         $category= Category::find($id);
         $medicines = Medicine::where('categories_name' , $category['name'])->get();
 
-        return $this->sendResponse([$category , $medicines ] , 'This category with it\'s medicines retrived successfully');
+        return $this->sendResponse([new CategoryResource($category) ,  MedicineResource::collection($medicines)] , 'This category with it\'s medicines retrived successfully');
     }
 
     /**

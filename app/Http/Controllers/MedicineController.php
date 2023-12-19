@@ -52,7 +52,7 @@ class MedicineController extends BaseController
              'scientific_name' => ['required' , 'unique:Medicines,scientific_name'],
              'trade_name' =>['required' , 'unique:Medicines,trade_name'],
              'company_name' => 'required',
-             'photo' =>  'image',
+             'photo' =>  ['image'],
              'categories_name' =>'required',
              'quantity'=>['required'],
              'expiration_at' => ['required'],
@@ -74,9 +74,11 @@ class MedicineController extends BaseController
             return $this->sendError('Sorry, we dont have this category, please validate your category name' ,);
          }
 
+         if ($request->has('photo')){
          $photo = $request->photo;
          $newPhoto = time().$photo->getClientOriginalName();
          $photo->move('uploads/medicines',$newPhoto);
+        //  dd($newPhoto);
 
          $medicine = Medicine::create([
                 'scientific_name' => $request->scientific_name ,
@@ -89,8 +91,22 @@ class MedicineController extends BaseController
                 'price'           => $request-> price ,
                 'form'            => $request-> form,
                 'details'         => $request->details,
-         ]);
-         return $this->sendResponse([$category,$medicine ], 'Adding new item done successfully');
+         ]);}
+         else{
+            $medicine = Medicine::create([
+                'scientific_name' => $request->scientific_name ,
+                'trade_name'      => $request->trade_name ,
+                'company_name'    => $request->company_name ,
+                // 'photo'           =>  'uploads/medicines'.$newPhoto ,
+                'categories_name' => $request-> categories_name ,
+                'quantity'        => $request->quantity ,
+                'expiration_at'   => $request->expiration_at ,
+                'price'           => $request-> price ,
+                'form'            => $request-> form,
+                'details'         => $request->details,
+         ]);}
+
+         return $this->sendResponse(new MedicineResource($medicine), 'Adding new item done successfully');
     }
 
     public function show($id)
@@ -107,7 +123,7 @@ class MedicineController extends BaseController
             'scientific_name' => 'required',
             'trade_name' =>'required',
             'company_name' => 'required',
-            'photo' =>  'required|image',
+            'photo' =>  'image',
             'categories_name' =>'required',
             'quantity'=>'required',
             'expiration_at' => 'required',
