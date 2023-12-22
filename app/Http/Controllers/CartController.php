@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
 use \App\Http\Resources\cart as CartResouce;
+use \App\Http\Resources\order as OrderResouce;
 use Carbon\Carbon;
 
 class CartController extends BaseController
@@ -54,9 +55,10 @@ class CartController extends BaseController
     //
     public function show($id)
     {
-        $cart = Cart::find($id);
-        // dd($cart);
-        return $this->sendResponse(new CartResouce($cart), 'This cart retrived successfully');
+        $cart= Cart::find($id);
+        $orders = Order::where('cart_id' , $cart['id'])->get();
+
+        return $this->sendResponse([new CartResouce($cart) ,  OrderResouce::collection($orders)] , 'This category with it\'s medicines retrived successfully');
     }
 
     public function update(Request $request, $id)

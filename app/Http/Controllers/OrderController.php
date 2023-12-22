@@ -20,9 +20,9 @@ class OrderController extends BaseController
         } else
          return $this->sendResponse(OrderResouce::collection($order), 'orders retrived Successfully');
     }
-    public function show($id)
+    public function show($cart_id)
     {
-        $order = Medicine::find($id);
+        $order = Order::find($cart_id);
         return $this->sendResponse(new OrderResouce($order), 'This order retrived successfully');
     }
 }
