@@ -27,10 +27,10 @@ class CartController extends BaseController
 
     public function store(Request $request)
     {
-        $user=Auth::user();
+
         $cart = Cart::create([
 
-            'user_id' =>$user->id
+            'user_id' => Auth::id()
         ]);
         $input = $request->all();
         $orders = [];
@@ -40,19 +40,25 @@ class CartController extends BaseController
                 'medicines_name' => $order['medicines_name'],
                 'quantity' => $order['quantity'],
             ]);
+
+            $orders[] = $order;
             $medicine_Order  = Medicine::where('scientific_name', $order['medicines_name'])->first();
 
-
             if ($medicine_Order->quantity < $order['quantity'] || $order['quantity'] <= 0 ) {
+                $cart->Delete();
+               $order->delete();
+               foreach ($orders as $order)
+               {$order->delete();}
+               foreach($order as $order){
                 return $this->sendError('sorry, we have entered the wrong medicine quantity ', [$medicine_Order->scientific_name, $medicine_Order->quantity]);
+
+               }
             }
-            $orders[] = $order;
 
         }
-
-
-        if(empty($orders) ){
-            return $this->sendError('There is no order yet' ,);
+         if(empty($orders) ){
+            $cart->delete();
+            return $this->sendError('There is no order yet');
          }
         return $this->sendResponse([$orders, $cart],  'successfully');
     }
@@ -60,6 +66,9 @@ class CartController extends BaseController
     public function show($id)
     {
         $cart= Cart::find($id);
+        if(!Isset($cart) ){
+            return $this->sendError('unavailable');
+        }
         $orders = Order::where('cart_id' , $cart['id'])->get();
 
         return $this->sendResponse([new CartResouce($cart) ,  OrderResouce::collection($orders)] , 'This category with it\'s medicines retrived successfully');
