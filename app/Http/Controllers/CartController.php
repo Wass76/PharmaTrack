@@ -27,9 +27,10 @@ class CartController extends BaseController
 
     public function store(Request $request)
     {
-
+        $user=Auth::user();
         $cart = Cart::create([
-            'user_id' => Auth::id()
+
+            'user_id' =>$user->id
         ]);
         $input = $request->all();
         $orders = [];
@@ -42,14 +43,17 @@ class CartController extends BaseController
             $medicine_Order  = Medicine::where('scientific_name', $order['medicines_name'])->first();
 
 
-            if ($medicine_Order->quantity < $order['quantity']) {
-                return $this->sendError('sorry, we dont have this quantity from this medicine', [$medicine_Order->scientific_name, $medicine_Order->quantity]);
+            if ($medicine_Order->quantity < $order['quantity'] || $order['quantity'] <= 0 ) {
+                return $this->sendError('sorry, we have entered the wrong medicine quantity ', [$medicine_Order->scientific_name, $medicine_Order->quantity]);
             }
             $orders[] = $order;
+
         }
 
 
-
+        if(empty($orders) ){
+            return $this->sendError('There is no order yet' ,);
+         }
         return $this->sendResponse([$orders, $cart],  'successfully');
     }
     //
