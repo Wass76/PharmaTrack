@@ -131,7 +131,7 @@ class CartController extends BaseController
     }
 
     public function GetLast4Carts(){
-        $carts =Cart::where('user_id' , Auth::user()->id)->orderby('created_at' , 'DESC')->paginate(4);
+        $carts =Cart::where('user_id' , Auth::user()->id)->orderby('created_at' , 'DESC')->take(4)->get(); // or limit()
         if(empty($carts)){
             // return $this -> sendError('no')
         }

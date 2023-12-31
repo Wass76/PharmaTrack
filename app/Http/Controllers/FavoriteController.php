@@ -3,19 +3,31 @@
 namespace App\Http\Controllers;
 
 use App\Http\Resources\FavoriteResource;
+use App\Http\Resources\Medicine as MedicineResourcce;
+
 use App\Models\Favorite;
 use App\Models\Medicine;
 use Illuminate\Http\Request;
 use Auth;
 use Validator;
 
+
 class FavoriteController extends BaseController
 {
     public function index()
     {
+        $FMedicines = [];
+
         $favorites = Favorite::where('user_id', Auth::user()->id)->where('is_favorite', true)->get();
         // dd($favorites);
-        return $this->sendResponse(FavoriteResource::collection($favorites), 'success');
+        foreach($favorites as $favorite){
+
+            $medicine = Medicine::where('id' , $favorite['medicine_id'])->get();
+            $FMedicines []= $medicine;
+            // dd($FMedicines)
+;        }
+        // dd($FMedicines);
+        return $this->sendResponse($FMedicines, 'success');
     }
 
     public function changeStatus(Request $request)
