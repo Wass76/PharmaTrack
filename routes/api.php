@@ -65,6 +65,10 @@ Route::prefix('Pharmacy')->group(function () {
         Route::post('cart/store/', [App\Http\Controllers\CartController::class, 'store']);
         Route::get('cart/index/', [App\Http\Controllers\CartController::class, 'index']);
         Route::get('cart/show/{id}', [App\Http\Controllers\CartController::class, 'show']);
+
+        // Favorire
+        Route::post('favorite/add', [App\Http\Controllers\FavoriteController::class, 'store']);
+        Route::get('favorite', [App\Http\Controllers\FavoriteController::class, 'index']);
     });
 });
 

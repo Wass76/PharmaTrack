@@ -35,6 +35,12 @@ class Medicine extends Model
      return $this->belongsToMany(User::class,);
  }
 
+ public function favorites()
+
+ {
+     return $this->hasMany(Favorite::class);
+ }
+
  protected $casts = [
     // 'expiration_at' => 'datetime:d/m/Y', // Change your format
 ];
