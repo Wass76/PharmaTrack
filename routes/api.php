@@ -63,12 +63,16 @@ Route::prefix('Pharmacy')->group(function () {
         Route::get('order/index/', [App\Http\Controllers\OrderController::class, 'index']);
         Route::get('order/show/{id}', [App\Http\Controllers\OrderController::class, 'show']);
         Route::post('cart/store/', [App\Http\Controllers\CartController::class, 'store']);
-        Route::get('cart/index/', [App\Http\Controllers\CartController::class, 'index']);
-        Route::get('cart/show/{id}', [App\Http\Controllers\CartController::class, 'show']);
+        Route::get('cart/index/', [App\Http\Controllers\CartController::class, 'allCartsForPharm']);
+        Route::get('cart/show/{id}', [App\Http\Controllers\CartController::class, 'showForPharm']);
+
+        Route::get('cart/LatestCarts', [App\Http\Controllers\CartController::class, 'GetLast4Carts']);
 
         // Favorire
-        Route::post('favorite/add', [App\Http\Controllers\FavoriteController::class, 'store']);
+        Route::post('favorite/add', [App\Http\Controllers\FavoriteController::class, 'changeStatus']);
         Route::get('favorite', [App\Http\Controllers\FavoriteController::class, 'index']);
+
+
     });
 });
 
@@ -130,9 +134,9 @@ Route::prefix('WareHouse')->group(function () {
             //get all orders
             Route::get('order/index/', [App\Http\Controllers\OrderController::class, 'index']);
             //get some cart info
-            Route::get('cart/{id}', [App\Http\Controllers\CartController::class, 'show']);
+            Route::get('cart/{id}', [App\Http\Controllers\CartController::class, 'showForWarehouse']);
             //get all of my carts
-            Route::get('carts', [App\Http\Controllers\CartController::class, 'index']);
+            Route::get('carts', [App\Http\Controllers\CartController::class, 'allCartsForWarehouse']);
             //update cart's info
             Route::post('cart/{id}', [App\Http\Controllers\CartController::class, 'update']);
         });

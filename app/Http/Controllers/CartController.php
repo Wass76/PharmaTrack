@@ -15,11 +15,22 @@ use Carbon\Carbon;
 class CartController extends BaseController
 {
 
-    public function index()
+    public function allCartsForPharm()
     {
+        // edit Wassem
+        $cart = Cart::where('user_id' , Auth::user()->id)->get();//
+        if (!isset($cart)) {
+            return $this->sendError('There is no cart');
+        } else
+            return $this->sendResponse(CartResouce::collection($cart), 'Successfully');
+    }
+
+    public function allCartsForWarehouse()
+    {
+        // edit Wassem
         $cart = Cart::all();
         if (!isset($cart)) {
-            return $this->sendError('There is no carts');
+            return $this->sendError('There is no cart');
         } else
             return $this->sendResponse(CartResouce::collection($cart), 'Successfully');
     }
@@ -69,16 +80,30 @@ class CartController extends BaseController
             return $this->sendError('sorry, we have entered the wrong medicine quantity ', $errors);
         }
     }
-
-    public function show($id)
+    public function showForPharm($id)
     {
         $cart = Cart::find($id);
+        if($cart->user_id == Auth::user()->id){
+            $orders = Order::where('cart_id', $cart['id'])->get();
+            return $this->sendResponse([new CartResouce($cart), OrderResouce::collection($orders)],
+             'This cart with it\'s orders retrived successfully');
+        }
+        else{
+            return $this->sendError('you don\'t have permission' ,'' ,403);
+        }
+    }
 
-        $orders = Order::where('cart_id', $cart['id'])->get();
-
-        dd($cart->Total_price);
-
-        return $this->sendResponse([new CartResouce($cart), OrderResouce::collection($orders)], 'This category with it\'s medicines retrived successfully');
+    public function showForWarehouse($id)
+    {
+        $cart = Cart::find($id);
+        // if($cart->user_id == Auth::user()->id){
+            $orders = Order::where('cart_id', $cart['id'])->get();
+            return $this->sendResponse([new CartResouce($cart), OrderResouce::collection($orders)],
+             'This cart with it\'s orders retrived successfully');
+        // }
+        // else{
+        //     return $this->sendError('you don\'t have permission' ,'' ,403);
+        // }
     }
 
     public function update(Request $request, $id)
@@ -103,5 +128,13 @@ class CartController extends BaseController
         //     }
         // }
         return $this->sendResponse($cart, 'successfully');
+    }
+
+    public function GetLast4Carts(){
+        $carts =Cart::where('user_id' , Auth::user()->id)->orderby('created_at' , 'DESC')->paginate(4);
+        if(empty($carts)){
+            // return $this -> sendError('no')
+        }
+        return $this->sendResponse($carts,'done');
     }
 }

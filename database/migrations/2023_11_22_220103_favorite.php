@@ -16,6 +16,7 @@ return new class extends Migration
             $table->integer('user_id') ->references('id')->on('users')->onDelete('cascade');
             $table->integer('medicine_id')->references('id')->on('medicines')->onDelete('cascade');
             $table->boolean('is_favorite')->default(false);
+            $table->softDeletes();
             $table->timestamps();
     });
 }
