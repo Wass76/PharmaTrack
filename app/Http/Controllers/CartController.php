@@ -14,6 +14,11 @@ use Carbon\Carbon;
 
 class CartController extends BaseController
 {
+    // public function __construct()
+    // {
+    //     $this->middleware(['auth' , 'can:access-SalesOfficer']);
+    // }
+
 
     public function allCartsForPharm()
     {
@@ -137,4 +142,6 @@ class CartController extends BaseController
         }
         return $this->sendResponse($carts,'done');
     }
+
+
 }

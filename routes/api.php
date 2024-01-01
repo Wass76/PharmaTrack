@@ -37,23 +37,23 @@ Route::prefix('Pharmacy')->group(function () {
         //browse Medicines
         Route::get('medicines', [App\Http\Controllers\MedicineController::class, 'index']);
 
-        Route::get('medicines/{id}' ,[App\Http\Controllers\MedicineController::class , 'show']);
+        Route::get('medicines/{id}', [App\Http\Controllers\MedicineController::class, 'show']);
 
 
         //browse the Categories
         Route::get('category', [App\Http\Controllers\CategoryController::class, 'index']);
 
-            Route::get('category/{id}' ,[App\Http\Controllers\CategoryController::class , 'show']);
+        Route::get('category/{id}', [App\Http\Controllers\CategoryController::class, 'show']);
 
 
         //Searching for Medicine
-        Route::post('search/medicine/' ,[App\Http\Controllers\MedicineController::class , 'MedicineSearch']);
+        Route::post('search/medicine/', [App\Http\Controllers\MedicineController::class, 'MedicineSearch']);
 
-        Route::get('searchList/medicine/' ,[App\Http\Controllers\MedicineController::class , 'SearchList']);
-         //Searching for Category
-        Route::post('search/category/' ,[App\Http\Controllers\CategoryController::class , 'CategorySearch']);
+        Route::get('searchList/medicine/', [App\Http\Controllers\MedicineController::class, 'SearchList']);
+        //Searching for Category
+        Route::post('search/category/', [App\Http\Controllers\CategoryController::class, 'CategorySearch']);
         //search in category
-        Route::post('search/medicineInCategory/{id}' ,[App\Http\Controllers\CategoryController::class , 'SearchInCategory']);
+        Route::post('search/medicineInCategory/{id}', [App\Http\Controllers\CategoryController::class, 'SearchInCategory']);
 
         Route::post('search/medicine/', [App\Http\Controllers\MedicineController::class, 'MedicineSearch']);
         //Searching for Category
@@ -71,6 +71,9 @@ Route::prefix('Pharmacy')->group(function () {
         // Favorire
         Route::post('favorite/add', [App\Http\Controllers\FavoriteController::class, 'changeStatus']);
         Route::get('favorite', [App\Http\Controllers\FavoriteController::class, 'index']);
+
+        Route::get('report' , [App\Http\Controllers\ReportController::class , 'OrderReportForMonth']);
+
 
 
     });
@@ -95,28 +98,34 @@ Route::prefix('WareHouse')->group(function () {
         Route::get('category', [App\Http\Controllers\CategoryController::class, 'index']);
 
         //   show some category and it's medicines
-          Route::get('category/{id}' ,[App\Http\Controllers\CategoryController::class , 'show']);
+        Route::get('category/{id}', [App\Http\Controllers\CategoryController::class, 'show']);
 
-             //   show Medicines
-             Route::get('medicines/{id}' ,[App\Http\Controllers\MedicineController::class , 'show']);
+        //   show Medicines
+        Route::get('medicines/{id}', [App\Http\Controllers\MedicineController::class, 'show']);
 
 
-    //Searching for Medicine
-        Route::post('search/medicine/' ,[App\Http\Controllers\MedicineController::class , 'MedicineSearch']);
-    //Searching for Category
-        Route::post('search/category/' ,[App\Http\Controllers\CategoryController::class , 'CategorySearch']);
+        //Searching for Medicine
+        Route::post('search/medicine/', [App\Http\Controllers\MedicineController::class, 'MedicineSearch']);
+        //Searching for Category
+        Route::post('search/category/', [App\Http\Controllers\CategoryController::class, 'CategorySearch']);
 
-    //Adding new Medicine or Category
-        Route::middleware(['can:access-Secretary'])->group(function(){
+        //Products Sales Report
+        Route::get('SalesReport' , [App\Http\Controllers\ReportController::class , 'productSalesReportForMonth']);
+
+          //users Report
+        Route::get('UsersReport' ,[App\Http\Controllers\ReportController::class , 'BestUsersForMonth'] );
+
+        //Adding new Medicine or Category
+        Route::middleware(['can:access-Secretary'])->group(function () {
 
             //Adding new Medicine or Category
-            Route::post('medicines' ,[App\Http\Controllers\MedicineController::class , 'store']);
-            Route::post('category' ,[App\Http\Controllers\CategoryController::class , 'store']);
+            Route::post('medicines', [App\Http\Controllers\MedicineController::class, 'store']);
+            Route::post('category', [App\Http\Controllers\CategoryController::class, 'store']);
 
 
             //Updating data for Medicine or Category
-            Route::post('medicines/{id}' ,[App\Http\Controllers\MedicineController::class , 'update']);
-            Route::post('category/{id}' ,[App\Http\Controllers\CategoryController::class , 'update']);
+            Route::post('medicines/{id}', [App\Http\Controllers\MedicineController::class, 'update']);
+            Route::post('category/{id}', [App\Http\Controllers\CategoryController::class, 'update']);
             //Searching for Medicine
             Route::post('search/medicine/', [App\Http\Controllers\MedicineController::class, 'MedicineSearch']);
             //Searching for Category
@@ -126,7 +135,7 @@ Route::prefix('WareHouse')->group(function () {
         });
 
         //Showing Pharmacies data
-         Route::middleware(['can:access-SalesOfficer'])->group(function () {
+        Route::middleware(['can:access-SalesOfficer'])->group(function () {
             //get pharmacies
             Route::get('users', [App\Http\Controllers\UserController::class, 'index']);
             //get some order details

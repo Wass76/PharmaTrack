@@ -19,7 +19,7 @@ class MedicineController extends BaseController
 
     //  public function __construct()
     // {
-    //     $this->middleware(['auth']);
+    //     $this->middleware(['auth' , 'can:access-Secretary']);
     // }
 
 
@@ -219,4 +219,7 @@ class MedicineController extends BaseController
         $Scmedicines = Medicine::all();
         return $this->sendResponse(MedicinesNames::collection($Scmedicines) , 'all data names retrived successfully');
     }
+
+
+
 }
