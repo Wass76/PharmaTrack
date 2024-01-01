@@ -4,6 +4,8 @@ use App\Http\Controllers\AuthController;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\PhotoController;
+
 
 
 /*
@@ -20,6 +22,10 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+
+
+Route::get('/photo/{filename}', [PhotoController::class, 'show'])->name('photo.show');
 
 
 
@@ -72,7 +78,7 @@ Route::prefix('Pharmacy')->group(function () {
         Route::post('favorite/add', [App\Http\Controllers\FavoriteController::class, 'changeStatus']);
         Route::get('favorite', [App\Http\Controllers\FavoriteController::class, 'index']);
 
-        Route::get('report' , [App\Http\Controllers\ReportController::class , 'OrderReportForMonth']);
+        Route::get('report' , [App\Http\Controllers\ReportController::class , 'CartReport']);
 
 
 

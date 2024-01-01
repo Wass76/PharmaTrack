@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\MedicineFavoriteResource;
 use App\Http\Resources\medicinesNames;
 use App\Models\Category;
+use App\Models\Favorite;
 use App\Models\Medicine;
 use Illuminate\Http\Request;
 use App\Http\Resources\Medicine as MedicineResource;
@@ -25,13 +27,14 @@ class MedicineController extends BaseController
 
     public function index()
     {
+        $favorites = Favorite::all();
         $medicines = Medicine::all();
         //$medicines = Medicine::paginate(); // show every 15 item
         if(!Isset($medicines) ){
             return $this->sendError('There is no medicine yet');
         }
         else{
-            return $this->sendResponse($medicines , 'all medicines retrived successfully');}
+            return $this->sendResponse(MedicineFavoriteResource::collection($medicines) , 'all medicines retrived successfully');}
     }
 
     /**

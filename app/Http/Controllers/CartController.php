@@ -51,7 +51,7 @@ class CartController extends BaseController
             $medicine_Order = Medicine::where('trade_name', $order['medicines_name'])->first();
             if ($medicine_Order->quantity < $order['quantity'] || $order['quantity'] <= 0) {
                 $boolean = false;
-                $errors[] = [$medicine_Order->scientific_name, $medicine_Order->quantity];
+                $errors[] = [$medicine_Order->trade_name, $medicine_Order->quantity];
             }
             // $orders[] = $order;
         }

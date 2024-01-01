@@ -119,9 +119,36 @@ class ReportController extends BaseController
         $reportData = [];
 
         $carts = cart::where('user_id' , Auth::user()->id)->whereBetween('created_at', [$startDate, $endDate])
-        ->orderby('Total_price' ,'DESC')->take(3)->get();
+        ->orderby('Total_price' ,'DESC')->get();
 
-        return $this->sendResponse($carts, 'Sales Report retrieved successfully');
+        $totalOrder = cart::where('user_id', Auth::user()->id)->whereBetween('created_at', [$startDate, $endDate])
+        ->sum('Total_price');
+        $reportData[] = [
+            'total_sales' => $totalOrder
+        ];
+
+        return $this->sendResponse([$carts ,$reportData], 'Sales Report retrieved successfully');
+    }
+
+    public function CartReport()
+    {
+
+        $startDate = Carbon::now()->startOfMonth();
+        $endDate = Carbon::now()->endOfMonth();
+
+        $medicines = Medicine::all(); // Retrieve all products
+        $reportData = [];
+
+        $carts = cart::where('user_id' , Auth::user()->id)->whereBetween('created_at', [$startDate, $endDate])
+        ->orderby('created_at' ,'ASC')->get();
+
+        $totalOrder = cart::where('user_id', Auth::user()->id)->whereBetween('created_at', [$startDate, $endDate])
+        ->sum('Total_price');
+        $reportData[] = [
+            'total_sales' => $totalOrder
+        ];
+
+        return $this->sendResponse([$carts ,$reportData], 'Sales Report retrieved successfully');
     }
 
 
