@@ -12,6 +12,8 @@ use \App\Http\Resources\Category as CategoryResource;
 
 use \App\Http\Resources\Medicine as MedicineResource;
 
+use \App\Http\Resources\MedicineFavoriteResource;
+
 
 class CategoryController extends BaseController
 {
@@ -28,17 +30,7 @@ class CategoryController extends BaseController
         return $this->sendResponse(CategoryResource::collection($categories ) , 'Categories retrived Successfully');
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
         $input = $request->all();
@@ -61,7 +53,7 @@ class CategoryController extends BaseController
         $category= Category::find($id);
         $medicines = Medicine::where('categories_name' , $category['name'])->get();
 
-        return $this->sendResponse([new CategoryResource($category) ,  MedicineResource::collection($medicines)] , 'This category with it\'s medicines retrived successfully');
+        return $this->sendResponse([new CategoryResource($category) ,  MedicineFavoriteResource::collection($medicines)] , 'This category with it\'s medicines retrived successfully');
     }
 
     /**

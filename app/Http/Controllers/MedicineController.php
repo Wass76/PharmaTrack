@@ -80,14 +80,14 @@ class MedicineController extends BaseController
          if ($request->has('photo')){
          $photo = $request->photo;
          $newPhoto = time().$photo->getClientOriginalName();
-         $photo->move('uploads/medicines',$newPhoto);
+         $photo->move('storage/medicines',$newPhoto);
         //  dd($newPhoto);
 
          $medicine = Medicine::create([
                 'scientific_name' => $request->scientific_name ,
                 'trade_name'      => $request->trade_name ,
                 'company_name'    => $request->company_name ,
-                'photo'           =>  'uploads/medicines'.$newPhoto ,
+                'photo'           =>  'storage/medicines/'.$newPhoto ,
                 'categories_name' => $request-> categories_name ,
                 'quantity'        => $request->quantity ,
                 'expiration_at'   => $request->expiration_at ,

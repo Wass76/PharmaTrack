@@ -31,7 +31,7 @@ class MedicineFavoriteResource extends JsonResource
             'deleted_at' => $this->deleted_at,
             'created_at' => $this -> created_at,
             'updated_at' => $this-> updated_at,
-            'favorite' => count(Favorite::where('user_id', Auth::user()->id)->where('medicine_id', $this->id)->get())==0?0:1 ,
+            'favorite' => count(Favorite::where('user_id', Auth::user()->id)->where('medicine_id', $this->id)->get()) == 0 ? 0 : 1 ,
         ];
     }
 }
