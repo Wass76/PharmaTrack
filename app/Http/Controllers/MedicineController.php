@@ -25,7 +25,7 @@ class MedicineController extends BaseController
     // }
 
 
-    public function index()
+    public function AllMedicineForPharm()
     {
         $favorites = Favorite::all();
         $medicines = Medicine::all();
@@ -35,6 +35,18 @@ class MedicineController extends BaseController
         }
         else{
             return $this->sendResponse(MedicineFavoriteResource::collection($medicines) , 'all medicines retrived successfully');}
+    }
+
+    public function AllMedicineForWareHouse()
+    {
+        $favorites = Favorite::all();
+        $medicines = Medicine::all();
+        //$medicines = Medicine::paginate(); // show every 15 item
+        if(!Isset($medicines) ){
+            return $this->sendError('There is no medicine yet');
+        }
+        else{
+            return $this->sendResponse(MedicineResource::collection($medicines) , 'all medicines retrived successfully');}
     }
 
     /**
@@ -112,7 +124,15 @@ class MedicineController extends BaseController
          return $this->sendResponse(new MedicineResource($medicine), 'Adding new item done successfully');
     }
 
-    public function show($id)
+    public function showForPharm($id)
+    {
+        // $medicine = Medicine::where('scientific_name' , $request->scientific_name)->first();
+        $medicine = Medicine::find($id);
+        return $this->sendResponse(new MedicineFavoriteResource($medicine) , 'This medicine retrived successfully');
+    }
+
+    public function showForWareHouse($id)
+
     {
         // $medicine = Medicine::where('scientific_name' , $request->scientific_name)->first();
         $medicine = Medicine::find($id);

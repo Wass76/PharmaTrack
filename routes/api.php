@@ -41,15 +41,15 @@ Route::prefix('Pharmacy')->group(function () {
         Route::get('logout', [App\Http\Controllers\AuthController::class, 'logout']);
 
         //browse Medicines
-        Route::get('medicines', [App\Http\Controllers\MedicineController::class, 'index']);
+        Route::get('medicines', [App\Http\Controllers\MedicineController::class, 'AllMedicineForPharm']);
 
-        Route::get('medicines/{id}', [App\Http\Controllers\MedicineController::class, 'show']);
+        Route::get('medicines/{id}', [App\Http\Controllers\MedicineController::class, 'showForPharm']);
 
 
         //browse the Categories
         Route::get('category', [App\Http\Controllers\CategoryController::class, 'index']);
 
-        Route::get('category/{id}', [App\Http\Controllers\CategoryController::class, 'show']);
+        Route::get('category/{id}', [App\Http\Controllers\CategoryController::class, 'showForPharm']);
 
 
         //Searching for Medicine
@@ -98,16 +98,16 @@ Route::prefix('WareHouse')->group(function () {
     Route::middleware('auth:api')->group(function () {
 
         //browse Medicines
-        Route::get('medicines', [App\Http\Controllers\MedicineController::class, 'index']);
+        Route::get('medicines', [App\Http\Controllers\MedicineController::class, 'AllMedicineForWareHouse']);
 
         //browse Categories
         Route::get('category', [App\Http\Controllers\CategoryController::class, 'index']);
 
         //   show some category and it's medicines
-        Route::get('category/{id}', [App\Http\Controllers\CategoryController::class, 'show']);
+        Route::get('category/{id}', [App\Http\Controllers\CategoryController::class, 'showForWareHouse']);
 
         //   show Medicines
-        Route::get('medicines/{id}', [App\Http\Controllers\MedicineController::class, 'show']);
+        Route::get('medicines/{id}', [App\Http\Controllers\MedicineController::class, 'showForWareHouse']);
 
 
         //Searching for Medicine

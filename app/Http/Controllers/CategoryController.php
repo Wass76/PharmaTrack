@@ -48,12 +48,20 @@ class CategoryController extends BaseController
     /**
      * Display the specified resource.
      */
-    public function show($id)
+    public function showForPharm($id)
     {
         $category= Category::find($id);
         $medicines = Medicine::where('categories_name' , $category['name'])->get();
 
         return $this->sendResponse([new CategoryResource($category) ,  MedicineFavoriteResource::collection($medicines)] , 'This category with it\'s medicines retrived successfully');
+    }
+
+    public function showForWareHouse($id)
+    {
+        $category= Category::find($id);
+        $medicines = Medicine::where('categories_name' , $category['name'])->get();
+
+        return $this->sendResponse([new CategoryResource($category) ,  MedicineResource::collection($medicines)] , 'This category with it\'s medicines retrived successfully');
     }
 
     /**
