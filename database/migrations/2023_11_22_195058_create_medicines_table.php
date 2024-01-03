@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('categories_name')->references('name')->on('categories')->onDelete('cascade');
             $table->string('form')->nullable();
             $table->integer('quantity');
+
             $table->integer('price');
             $table->date('expiration_at'); // we did it as time to add it as date
             $table->longText('details')->nullable();

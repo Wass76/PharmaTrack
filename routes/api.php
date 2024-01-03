@@ -32,6 +32,9 @@ Route::get('/photo/{filename}', [PhotoController::class, 'show'])->name('photo.s
 Route::prefix('Pharmacy')->group(function () {
 
     Route::post('register', [App\Http\Controllers\AuthController::class, 'pharmacyRegister']);
+    Route::post('sendNotification', [App\Http\Controllers\AuthController::class, 'sendNotification']);
+    Route::post('refreshToken', [App\Http\Controllers\AuthController::class, 'refreshToken']);
+
     Route::post('login', [App\Http\Controllers\AuthController::class, 'pharmacyLogin']);
 
     Route::middleware('auth:api')->group(function () {
@@ -93,6 +96,8 @@ Route::prefix('WareHouse')->group(function () {
 
     //Signing
     Route::post('login', [App\Http\Controllers\AuthController::class, 'WareHouseLogin']);
+    Route::post('sendNotification', [App\Http\Controllers\AuthController::class, 'sendNotification']);
+    Route::post('refreshToken', [App\Http\Controllers\AuthController::class, 'refreshToken']);
     Route::get('logout', [App\Http\Controllers\AuthController::class, 'logout']);
 
     Route::middleware('auth:api')->group(function () {

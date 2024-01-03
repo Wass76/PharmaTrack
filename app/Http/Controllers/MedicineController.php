@@ -9,10 +9,12 @@ use App\Models\Favorite;
 use App\Models\Medicine;
 use Illuminate\Http\Request;
 use App\Http\Resources\Medicine as MedicineResource;
-
+use Illuminate\Support\Facades\Auth ;
 use App\Http\Resources\Category as CategoryResource;
+use Illuminate\Support\Facades\Http;
+
 use Validator;
-use Auth;
+
 class MedicineController extends BaseController
 {
     /**
@@ -120,8 +122,28 @@ class MedicineController extends BaseController
                 'form'            => $request-> form,
                 'details'         => $request->details,
          ]);}
+         $user_id = Auth::user()->id;
+         $server_key = env('FCM_SERVER_KEY');
+         $data = [
 
-         return $this->sendResponse(new MedicineResource($medicine), 'Adding new item done successfully');
+            "registration_ids" => [
+                $user_id->Fcm_token
+            ],
+
+            "notification" => [
+
+                "title" => 'new medicine',
+
+                "body" => 'A new medicine has been added',
+
+                "sound"=> "default" // required for sound on ios
+
+            ],
+
+        ];
+
+        $dataString = json_encode($data);
+         return $this->sendResponse([new MedicineResource($medicine)], 'Adding new item done successfully');
     }
 
     public function showForPharm($id)

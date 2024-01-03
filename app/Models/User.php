@@ -29,6 +29,7 @@ class User extends Authenticatable
         'address',
         'password',
         'confirm_password' ,
+        'Fcm_token'
     ];
 
 

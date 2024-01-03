@@ -22,6 +22,7 @@ return new class extends Migration
             $table->string('confirm_password');
             $table->integer('role_id')->default('1');
             $table->timestamp('email_verified_at')->nullable();
+            $table->text('Fcm_token')->unique()->nullable();
             $table->rememberToken();
             $table->timestamps();
         });
