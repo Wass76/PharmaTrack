@@ -26,7 +26,58 @@ class MedicineController extends BaseController
     //     $this->middleware(['auth' , 'can:access-Secretary']);
     // }
 
-
+//    public function sendNotification($mess){
+//        $user_id = Auth::user()->id;
+//        $server_key = env('FCM_SERVER_KEY');
+//
+//        $token = auth()->user()->Fcm_token;
+//
+//        $data = [
+//
+//            "registration_ids" => [
+//                $token
+//            ],
+//
+//            "notification" => [
+//
+//                "title" => 'Notification',
+//
+//                "body" => $mess,
+//
+//                "sound"=> "default" // required for sound on ios
+//
+//            ],
+//
+//        ];
+//
+//        $dataString = json_encode($data);
+//
+//        $headers = [
+//
+//            'Authorization: key=' . $server_key,
+//
+//            'Content-Type: application/json',
+//
+//        ];
+//
+//        $ch = curl_init();
+//
+//        curl_setopt($ch, CURLOPT_URL, 'https://fcm.googleapis.com/fcm/send');
+//
+//        curl_setopt($ch, CURLOPT_POST, true);
+//
+//        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+//
+//        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+//
+//        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+//
+//        curl_setopt($ch, CURLOPT_POSTFIELDS, $dataString);
+//
+//        $response = curl_exec($ch);
+//
+//        dd($response);
+//    }
     public function AllMedicineForPharm()
     {
         $favorites = Favorite::all();
@@ -122,28 +173,8 @@ class MedicineController extends BaseController
                 'form'            => $request-> form,
                 'details'         => $request->details,
          ]);}
-         $user_id = Auth::user()->id;
-         $server_key = env('FCM_SERVER_KEY');
-         $data = [
-
-            "registration_ids" => [
-                $user_id->Fcm_token
-            ],
-
-            "notification" => [
-
-                "title" => 'new medicine',
-
-                "body" => 'A new medicine has been added',
-
-                "sound"=> "default" // required for sound on ios
-
-            ],
-
-        ];
-
-        $dataString = json_encode($data);
-         return $this->sendResponse([new MedicineResource($medicine)], 'Adding new item done successfully');
+       //  $notification=$this->sendNotification('A new medicine has been added');
+         return $this->sendResponse(new MedicineResource($medicine), 'Adding new item done successfully');
     }
 
     public function showForPharm($id)

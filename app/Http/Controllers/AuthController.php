@@ -42,43 +42,10 @@ class AuthController extends BaseController
         $success['email'] = $user->email;
         $success['Fcm_token'] = $user->Fcm_token;
 
-        $x = $this->sendNotification($request);
+       // $x = $this->sendNotification('Hello in Repomed');
 
         return $this->sendResponse($success, 'registration done successfully');
-    }
-
-
-    public function refreshToken(Request $request)
-    {
-        // $user_id=$request->user_id;
-        $Fcm_token = $request->Fcm_token;
-        $user_id = Auth::user()->id;
-        $user = Auth::where('id', $user_id)->update(['Fcm_token' => $Fcm_token]);
-        return $user;
-    }
-
-    public function sendNotification(Request $request)
-    {
-        $user_id = Auth::user()->id;
-        $Fcm_token = Auth::find($user_id)->pluck('Fcm_token');
-        $server_key = env('FCM_SERVER_KEY');
-        $fcm = Http::acceptJson()->withToken($server_key)->post(
-
-            'https://fcm.googleapis.com/fcm/send',
-            [
-                "registration_ids" => $Fcm_token,
-
-                "notification" => [
-                    "title" => 'Hello',
-
-                    "body" => 'Hello in Repomed',
-
-                    "sound" => "default"
-                ]
-            ]
-        );
-        return json_decode($fcm);
-    }
+        }
 
     public function pharmacyLogin(Request $request)
     {
@@ -101,7 +68,7 @@ class AuthController extends BaseController
             $success['userNumber'] = $user->userNumber;
             $success['address'] = $user->address;
             $success['email'] = $user->email;
-            $x = $this->sendNotification($request);
+         //   $notification=$this->sendNotification('Hello in Repomed');
             return $this->sendResponse($success, 'login done successfully');
         } else {
             if ($validator->fails()) {

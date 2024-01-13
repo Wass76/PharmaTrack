@@ -56,7 +56,27 @@ class FavoriteController extends BaseController
                 }
             }
         }
+    //     $user_id = Auth::user()->id;
+    //     $server_key = env('FCM_SERVER_KEY');
+    //     $data = [
 
+    //        "registration_ids" => [
+    //            $user_id->Fcm_token
+    //        ],
+
+    //        "notification" => [
+
+    //            "title" => 'new favorites',
+
+    //            "body" => 'A new medicine has been added ',
+
+    //            "sound"=> "default" // required for sound on ios
+
+    //        ],
+
+    //    ];
+
+    //    $dataString = json_encode($data);
         $favorite = Favorite::create([
             'user_id' => Auth::user()->id,
             'medicine_id' => $input['medicine_id'],

@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\cart;
 use App\Models\Order;
 use App\Models\Medicine;
+use App\Models\User;
+
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
@@ -18,7 +20,34 @@ class CartController extends BaseController
     // {
     //     $this->middleware(['auth' , 'can:access-SalesOfficer']);
     // }
+    public static function send($tokens, $title, $body) // device token - title of m  - body of m
+    {
+    $SERVER_API_KEY = 'AAAAPAwRvNE:APA91bHWlobs3PtIJ3iKiz9Qh7GzRD9A4ncAskWNcmOJiGthi8MiA98LS8vT42DCUEEqbOzUCFEvlZq9qoe6Fl4nIGCxv1jIJmUhSmlVR8XrsPvnxBcGbikrdwBZkgY5rlvnRYq9HLc3';
+    $token_1 ='ePC0idw-QcGKkUFPciWJbv:APA91bGZJBffjr0lF1s-nf4jR7sWUiGvgA9wJuPZXn62qnsmIac0A0kZb57zRQi7it7um6ViGQmqKbhuhwQSVXuVCylEYLkJS3E9askPP-RB1lx6OC41WlDnQvU5-5hhSJDfmbvmDodr' ;
 
+        $data = [
+        "to" => $token_1,
+        "notification" => [
+            "title" => $title,
+            "body" => $body,
+            "sound"=> "default" // required for sound on ios
+        ],
+    ];
+    $dataString = json_encode($data);
+    $headers = [
+        'Authorization: key=' . $SERVER_API_KEY,
+        'Content-Type: application/json',
+    ];
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, 'https://fcm.googleapis.com/fcm/send');
+    curl_setopt($ch, CURLOPT_POST, true);
+    curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, $dataString);
+    $response = curl_exec($ch);
+    return $response;
+    }
 
     public function allCartsForPharm()
     {
@@ -76,9 +105,7 @@ class CartController extends BaseController
                 $cart->Total_price  += $order->price;
                 $medicine_Order->quantity = $medicine_Order->quantity - $data['quantity'];
                 $medicine_Order->save();
-                $cart->save();
-                        }
-            // dd($cart->Total_price);
+                $cart->save();}
 
             return $this->sendResponse([$orders, $cart], 'successfully');
         } else {
@@ -123,16 +150,17 @@ class CartController extends BaseController
         $cart->status = $request->status; // New - Preparing - Delivering - Received
         $cart->update();
 
-        // if ($request->status == 'sent') {
-        //     $orders = Order::where('cart_id', $cart['id'])->get();
-        //     foreach ($orders as $order) {
-
-        //         $medicine = Medicine::where('trade_name', $order->medicines_name)->first();
-        //         $medicine->quantity = $medicine->quantity - $order['quantity'];
-        //         $medicine->save();
-        //     }
-        // }
+        $user_id = $cart->user_id;
+        // dd($user_id);
+        $user = User::find($user_id);
+        $tokens = $user->Fcm_token;
+        $title = 'new messege';
+        $body = 'an update on your order';
+        // dd($tokens);
+        $notification=$this->send($tokens, $title, $body);
+//        dd($notification);
         return $this->sendResponse($cart, 'successfully');
+
     }
 
     public function GetLast4Carts(){
